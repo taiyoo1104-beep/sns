@@ -3,14 +3,18 @@ import { useShowMessage } from "./useShowMessage"
 import { supabase } from "../lib/supabase";
 
 export type ContentType = {
-  id: string;          // 投稿のID
+  message_id: string;          // 投稿のID
   created_at: string;  // Supabaseのtimestampは文字列で来ることが多い
   contents: string;        // 投稿本文
-  user_name: string;   // ユーザー名
   user_id: string;     // ユーザーID
   category: string;    // カテゴリ
   good_count: number;  // いいね数
   user_icon: string;   // アイコンURL
+  users: {
+    user_name:string;
+    avatar_url:string;
+    user_id:string;
+  } | null
 };
 
 export const useContentsAll = () => {
@@ -21,15 +25,25 @@ export const useContentsAll = () => {
 
         const { data , error } = await supabase
             .from("contents")
-            .select("*")
+            .select('message_id,created_at,contents,category,good_count,user_id,users(user_name,avatar_url,user_id)')
             .order("created_at" , {ascending:false});
 
         if(error){
             showMessage({title:"取得に失敗しました。",type:"error"})
         }else if(data){
-            setContents(data);
+            setContents(data as unknown as ContentType[]);
         }
     },[])
+
+    // const getGoodUp = useCallback(async (id:number,currentCount:number) => {
+
+    //     const {  } = await supabase
+    //         .from("contents")
+    //         .update({good_count:currentCount+1})
+    //         .eq("message_id" , id);
+    // },[getContents,showMessage])
+
+ 
 
     return {getContents,contents}
 }

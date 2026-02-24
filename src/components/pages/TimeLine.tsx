@@ -14,7 +14,7 @@ export const TimeLine:FC = memo(() => {
   return (
     <>
     {contents.map((content) => (
-      <ContentCard key={content.user_id} userIcon={content.user_icon} userName={content.user_name} userId={content.user_id}
+      <ContentCard key={content.user_id} users={content.users}
       time={content.created_at} category={content.category} goodCount={content.good_count} >{content.contents}</ContentCard>
     ))}
     </>

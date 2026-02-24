@@ -14,6 +14,7 @@ type Props = {
 }
 export const ContentCard:FC<Props> = (props) => {
     const { children , userIcon,userName,userId,time,category,goodCount} = props;
+    console.log(userIcon)
     return (
         <>
         <Flex justify="center" w="100%" mt="20px">

@@ -1,15 +1,8 @@
-import './App.css'
-import { Login } from './components/pages/Login'
-import { Toaster } from './components/ui/toaster'
+import './App.css';
+import { Router } from './components/router/router'; 
 
 function App() {
-
-  return (
-    <>
-    <Login/>
-    <Toaster/>
-    </>
-  )
+  return <Router />;
 }
 
-export default App
+export default App;

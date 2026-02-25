@@ -1,7 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { useShowMessage } from "./useShowMessage"
 import { supabase } from "../lib/supabase";
 import {  useNavigate } from "react-router-dom";
+import { UserContext } from "../providers/UserProvider";
 
 type Props = {
     id:string;
@@ -11,7 +12,7 @@ type Props = {
 export const useLoginAuth = () => {
     const showMessage = useShowMessage();
     const navigate = useNavigate();
-
+    const { setLoginUser } = useContext(UserContext);
 
     const login = useCallback(async (props : Props) => {
         const {id,password} = props;
@@ -27,6 +28,8 @@ export const useLoginAuth = () => {
             showMessage({title:"IDまたはパスワードが違います",type:"error"})
         }else if(data){
             showMessage({title:"ログインに成功しました",type:"success"})
+            setLoginUser(data);
+            localStorage.setItem("loginUser",JSON.stringify(data))
             navigate("/timeline")
         }
     },[])

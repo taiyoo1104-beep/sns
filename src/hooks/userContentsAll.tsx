@@ -1,6 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { useShowMessage } from "./useShowMessage"
 import { supabase } from "../lib/supabase";
+import { UserContext } from "../providers/UserProvider";
 
 export type ContentType = {
   message_id: string;          // 投稿のID
@@ -20,9 +21,10 @@ export type ContentType = {
 export const useContentsAll = () => {
     const showMessage = useShowMessage();
     const [contents,setContents] = useState<ContentType[]>([]);
-
+    const { loginUser } = useContext(UserContext);
+    console.log("ログインユーザー:"+loginUser?.user_id+loginUser?.id+loginUser?.user_name)
     const getContents = useCallback(async () => {
-
+        if(!loginUser) return;
         const { data , error } = await supabase
             .from("contents")
             .select('message_id,created_at,contents,category,good_count,user_id,users(user_name,avatar_url,user_id)')

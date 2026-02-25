@@ -5,14 +5,17 @@ import App from './App.tsx'
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react'
 import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from './components/ui/toaster.tsx'
+import { UserProvider } from './providers/UserProvider.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
+  <UserProvider>
   <StrictMode>
     <ChakraProvider value={defaultSystem}>
     <App />
     <Toaster />
     </ChakraProvider>
   </StrictMode>
+  </UserProvider>
   </BrowserRouter>
 )

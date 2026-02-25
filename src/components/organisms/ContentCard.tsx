@@ -1,6 +1,6 @@
 import {  Box, Flex, Spacer} from "@chakra-ui/react"
 import { Heart} from "lucide-react";
-import type {  FC } from "react";
+import {   type FC } from "react";
 import { CustomAvatar } from "../ui/avatar";
 
 type Props = {
@@ -20,12 +20,14 @@ export const ContentCard:FC<Props> = (props) => {
     const formatDate = (dateStr: string|Date) => {
       const date = new Date(dateStr);
       if(isNaN(date.getTime())) return "日付不明" ;
-
+      console.log(date)
       const y = date.getFullYear();
       const m = String(date.getMonth() + 1).padStart(2,"0");
       const d = String(date.getDay() + 1).padStart(2,"0");
+      const H = String(date.getHours()).padStart(2,"0");
+      const M = String(date.getMinutes()).padStart(2,"0");
 
-      return `${y}年${m}月${d}日`
+      return `${y}年${m}月${d}日 ${H}時${M}分`
     }
 
     return (

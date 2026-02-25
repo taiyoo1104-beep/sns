@@ -9,14 +9,14 @@ export const TimeLine:FC = memo(() => {
     getContents();
   },[getContents])
 
-  console.log(contents)
-
   return (
     <>
+    <div style={{paddingBottom:"40px"}}>
     {contents.map((content) => (
-      <ContentCard key={content.user_id} users={content.users}
+      <ContentCard key={content.message_id} users={content.users}
       time={content.created_at} category={content.category} goodCount={content.good_count} >{content.contents}</ContentCard>
     ))}
+    </div>
     </>
   )
 })

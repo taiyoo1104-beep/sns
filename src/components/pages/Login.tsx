@@ -20,7 +20,7 @@ export const Login:FC = () => {
         <>
         <Flex justify="center" align="center" height="100vh">
             <Box bg="white" borderRadius="30px" border="solid gray 2px" h="400px" w="550px" p={4}>
-                <Heading as="h1" size="5xl" fontWeight="bold" textAlign="center">X</Heading>
+                <Heading as="h1" size="5xl" fontWeight="bold" textAlign="center">Y</Heading>
                 <Stack spaceY={7} py={4} px={10}>
                 <LabelWithForm placeHolder="ログインIDを入力" onChange={onChangeUserId} value={userId}>ログインID</LabelWithForm>
                 <LabelWithForm placeHolder="パスワードを入力" type="password" onChange={onChangePassword} value={password}>パスワード</LabelWithForm>

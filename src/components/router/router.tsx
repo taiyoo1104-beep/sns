@@ -18,7 +18,7 @@ export const Router:FC = memo(() => {
 
     <Route element={<HeaderLayout/>}>
     <Route path="/profile" element={<Profile/>}/>
-    <Route path="/timeline" element={<TimeLine/>}/>
+    <Route path="/timeline" element={<TimeLine />}/>
     <Route path="/newpost" element={<Login/>}/>
     <Route path="/message" element={<Message/>}/>
     <Route path="/setting" element={<Setting/>}/>

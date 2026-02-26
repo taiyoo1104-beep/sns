@@ -1,10 +1,15 @@
 import { memo, useEffect, type FC } from "react"
 import { ContentCard } from "../organisms/ContentCard"
-import { useContentsAll } from "../../hooks/useContentsAll"
+import { useOutletContext } from "react-router-dom"
+
+type ContextType = {
+  contents : any[];
+  getContents : () => void;
+  toggleGood : (message_id:number,is_liked:boolean) => void;
+}
 
 export const TimeLine:FC = memo(() => {
-  const { getContents,contents,toggleGood} = useContentsAll();
-
+  const {contents,getContents,toggleGood} = useOutletContext<ContextType>(); 
   useEffect(() => {
     getContents();
   },[getContents])

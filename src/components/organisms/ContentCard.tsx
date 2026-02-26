@@ -13,19 +13,20 @@ type Props = {
     avatar_url:string;
     user_id:string;
   } | null
+  isLiked : boolean;
+  onClickGood : () => void;
 }
 export const ContentCard:FC<Props> = (props) => {
-    const { children ,time,category,goodCount,users} = props;
+    const { children ,time,category,goodCount,users,isLiked,onClickGood} = props;
     
     const formatDate = (dateStr: string|Date) => {
       const date = new Date(dateStr);
       if(isNaN(date.getTime())) return "日付不明" ;
-      console.log(date)
       const y = date.getFullYear();
       const m = String(date.getMonth() + 1).padStart(2,"0");
-      const d = String(date.getDay() + 1).padStart(2,"0");
-      const H = String(date.getHours()).padStart(2,"0");
-      const M = String(date.getMinutes()).padStart(2,"0");
+      const d = String(date.getDate() + 1).padStart(2,"0");
+      const H = String(date.getUTCHours()).padStart(2,"0");
+      const M = String(date.getUTCMinutes()).padStart(2,"0");
 
       return `${y}年${m}月${d}日 ${H}時${M}分`
     }
@@ -43,8 +44,8 @@ export const ContentCard:FC<Props> = (props) => {
                 <Spacer/>
 
                 <Flex align="center" gap="5px" mr="12px" >
-                  <Box _hover={{opacity:0.4}}>
-                  <Heart size={18} />
+                  <Box _hover={{opacity:0.4}} onClick={onClickGood} color={isLiked ? "red.500" : "gray.500"}>
+                  <Heart size={18} fill={isLiked ? "currentColor":"none"}/>
                   </Box>
                   <p style={{ fontWeight: "bold" }}>{goodCount}</p>
                 </Flex>

@@ -1,14 +1,21 @@
-import { useCallback, useContext, type FC } from "react";
+import { useCallback, useContext, useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box,  Flex, Heading,  Link } from "@chakra-ui/react";
 import { Home, LogOut, MessageCircle, PlusCircle, SettingsIcon } from "lucide-react";
 import { UserContext } from "../../../providers/UserProvider";
 import { CustomAvatar } from "../../ui/avatar";
+import { NewPostModal } from "../modal/NewPostModal";
 
-export const Header:FC = () => {
+type Props = {
+  onRefresh : () => void;
+}
+
+export const Header:FC<Props> = (props) => {
   //変数
   const navigate = useNavigate();
   const { loginUser } = useContext(UserContext)
+  const [open , setOpen ] = useState(false);
+
 
   //関数
   //リンクの遷移
@@ -20,10 +27,6 @@ export const Header:FC = () => {
     navigate("/timeline");
   },[]);
 
-  const onClickNewpost = useCallback(() => {
-    navigate("/newpost");
-  },[]);
-
   const onClickMessage = useCallback(() => {
     navigate("/message");
   },[]);
@@ -32,6 +35,9 @@ export const Header:FC = () => {
     navigate("/setting");
   },[]);
 
+  const onClickNewPost = useCallback(() => {
+    setOpen(true);
+  },[])
   return (
     <>
     <Flex as="nav" bg="black" color="gray.50" align="center" justify="space-between" padding={{base:3,md:5}}>
@@ -48,7 +54,7 @@ export const Header:FC = () => {
         <Link  color="white"onClick={onClickTimeline}><Home/></Link>
         </Box>
         <Box pr={10}>
-        <Link color="white" onClick={onClickNewpost}><PlusCircle/></Link>
+        <Link color="white" onClick={onClickNewPost}><PlusCircle/></Link>
         </Box>
         <Box pr={10}>
         <Link color="white" onClick={onClickMessage}><MessageCircle/></Link>
@@ -60,8 +66,10 @@ export const Header:FC = () => {
           <LogOut/>
         </Box>
       </Flex>  
-
     </Flex>
+
+    <NewPostModal isOpen={open} onClose={() => setOpen(false)} onPostSuccess={props.onRefresh}/>
+
     </>
   )
 }

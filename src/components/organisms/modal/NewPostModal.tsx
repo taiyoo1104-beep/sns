@@ -8,8 +8,8 @@ import {
   DialogHeader,
   DialogRoot,
 } from "../../ui/dialog"
-import { Button, NativeSelectField, NativeSelectRoot, Stack, Textarea } from "@chakra-ui/react";
-import { Field } from "@ark-ui/react";
+import { Button, NativeSelectField, NativeSelectIndicator, NativeSelectRoot, Stack, Textarea } from "@chakra-ui/react";
+import { Field, FieldLabel } from "@ark-ui/react";
 
 type Props = {
   isOpen : boolean;
@@ -39,24 +39,27 @@ export const NewPostModal:FC<Props> = (props) => {
 
         <DialogBody>
           <Stack gap={4}>
+            <FieldLabel>カテゴリ</FieldLabel>
             <NativeSelectRoot>
               <NativeSelectField value={category} onChange={(e:ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value)}>
                 <option value="雑談">雑談</option>
                 <option value="技術">技術</option>
                 <option value="日常">日常</option>
               </NativeSelectField>
+              <NativeSelectIndicator/>
             </NativeSelectRoot>
 
             <Field.Root>
-              <Textarea h="300px" autoresize value={content} onChange={(e:ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}>
+              <FieldLabel>ポスト</FieldLabel>
+              <Textarea mt="13px" h="300px" autoresize value={content} onChange={(e:ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}>
               </Textarea>
             </Field.Root>
           </Stack>
         </DialogBody>
 
-        <DialogFooter>
+        <DialogFooter justifyContent="space-between">
           <Button variant="ghost" onClick={onClose}>閉じる</Button>
-          <Button colorPalette="blue" onClick={onClickPost} disabled={content.trim() === ""}>投稿</Button>
+          <Button colorPalette="black" onClick={onClickPost} disabled={content.trim() === ""}>投稿</Button>
         </DialogFooter>
       </DialogContent>
     </DialogRoot>

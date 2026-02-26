@@ -25,10 +25,8 @@ export const ContentCard:FC<Props> = (props) => {
       const y = date.getFullYear();
       const m = String(date.getMonth() + 1).padStart(2,"0");
       const d = String(date.getDate() + 1).padStart(2,"0");
-      const H = String(date.getUTCHours()).padStart(2,"0");
-      const M = String(date.getUTCMinutes()).padStart(2,"0");
 
-      return `${y}年${m}月${d}日 ${H}時${M}分`
+      return `${y}年${m}月${d}日`
     }
 
     return (

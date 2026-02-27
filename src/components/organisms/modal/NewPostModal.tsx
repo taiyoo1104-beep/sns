@@ -30,6 +30,11 @@ export const NewPostModal:FC<Props> = (props) => {
     onPostSuccess();
   }
 
+  const onClickBack = () => {
+    setContent("")
+    onClose();
+  }
+
   return (
     <DialogRoot open={isOpen} onOpenChange={onClose} placement="center">
       <DialogContent>
@@ -58,7 +63,7 @@ export const NewPostModal:FC<Props> = (props) => {
         </DialogBody>
 
         <DialogFooter justifyContent="space-between">
-          <Button variant="ghost" onClick={onClose}>閉じる</Button>
+          <Button variant="ghost" onClick={onClickBack}>閉じる</Button>
           <Button colorPalette="black" onClick={onClickPost} disabled={content.trim() === ""}>投稿</Button>
         </DialogFooter>
       </DialogContent>

@@ -16,7 +16,7 @@ export const TimeLine:FC = memo(() => {
 
   return (
     <>
-    <div style={{paddingBottom:"40px"}}>
+    <div style={{paddingBottom:"40px", paddingTop:"70px"}}>
     {contents.map((content) => (
       <ContentCard key={content.message_id} users={content.users}
       time={content.created_at} category={content.category} goodCount={content.like_count} isLiked={content.is_liked} onClickGood={() => toggleGood(content.message_id,content.is_liked)}>{content.contents}</ContentCard>

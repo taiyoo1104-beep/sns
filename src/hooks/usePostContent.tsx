@@ -20,7 +20,6 @@ export const usePostContent = () => {
             showMessage({ title: "ログインが必要です", type: "error" });
             return;
         }
-        
         const { error } = await supabase
             .from("contents")
             .insert({

@@ -35,12 +35,16 @@ export const Header:FC<Props> = (props) => {
     navigate("/setting");
   },[]);
 
+  const onClickLogout = useCallback(() => {
+    navigate("/login");
+  },[]);
+
   const onClickNewPost = useCallback(() => {
     setOpen(true);
   },[])
   return (
     <>
-    <Flex as="nav" bg="black" color="gray.50" align="center" justify="space-between" padding={{base:3,md:5}}>
+    <Flex as="nav" bg="black" color="gray.50" align="center" justify="space-between" padding={{base:3,md:5}} position="fixed" top={0} height="70px" zIndex="sticky" w="100%" left={0} right={0}>
 
       <Flex align="center" as="a" mr={8} _hover={{cursor:"pointer"}} onClick={onClickTimeline}>
       <Heading as="h1" fontSize={{ base:"md",md:"lg"}}>Y</Heading>
@@ -63,7 +67,7 @@ export const Header:FC<Props> = (props) => {
         <Link color="white" onClick={onClickSetting}><SettingsIcon/></Link>
         </Box>
         <Box>
-          <LogOut/>
+          <LogOut onClick={onClickLogout} style={{cursor:"pointer"}}/>
         </Box>
       </Flex>  
     </Flex>

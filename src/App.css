@@ -2,3 +2,31 @@ body {
     margin: 0;
     background-color: #DCD6D2;
 }
+
+html{
+    scrollbar-gutter: stable;
+}
+
+/* Webkitブラウザ（Chrome, Safari, Edge）用 */
+::-webkit-scrollbar {
+  width: 8px; /* スクロールバーの太さ */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* 背景（溝）を透明に */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc; /* バーの色 */
+  border-radius: 10px; /* 角丸でモダンに */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999; /* ホバーした時の色 */
+}
+
+/* Firefox用 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cccccc transparent;
+}

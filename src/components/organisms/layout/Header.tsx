@@ -1,10 +1,11 @@
 import { useCallback, useContext, useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box,  Flex, Heading,  Link } from "@chakra-ui/react";
-import { Home, LogOut, MessageCircle, PlusCircle, SettingsIcon } from "lucide-react";
+import { Home, LogOut, MessageCircle, PlusCircle } from "lucide-react";
 import { UserContext } from "../../../providers/UserProvider";
 import { CustomAvatar } from "../../ui/avatar";
 import { NewPostModal } from "../modal/NewPostModal";
+import { LogoutModal } from "../modal/LogoutModal";
 
 type Props = {
   onRefresh : () => void;
@@ -14,7 +15,8 @@ export const Header:FC<Props> = (props) => {
   //変数
   const navigate = useNavigate();
   const { loginUser } = useContext(UserContext)
-  const [open , setOpen ] = useState(false);
+  const [logoutOpen , setLogoutOpen ] = useState(false);
+  const [postOpen , setPostOpen ] = useState(false);
 
 
   //関数
@@ -31,16 +33,16 @@ export const Header:FC<Props> = (props) => {
     navigate("/message");
   },[]);
   
-  const onClickSetting = useCallback(() => {
-    navigate("/setting");
-  },[]);
+  // const onClickSetting = useCallback(() => {
+  //   navigate("/setting");
+  // },[]);
 
   const onClickLogout = useCallback(() => {
-    navigate("/login");
+      setLogoutOpen(true);
   },[]);
 
   const onClickNewPost = useCallback(() => {
-    setOpen(true);
+    setPostOpen(true);
   },[])
   return (
     <>
@@ -52,7 +54,7 @@ export const Header:FC<Props> = (props) => {
 
       <Flex align="center" fontSize="sm" flexGrow={2} display={{base:"none",md:"flex"}} justifyContent="right">
         <Box pr={10}>
-        <Link color="white" onClick={onClickProfile}><CustomAvatar src={loginUser?.avatar_url} size="30px"/></Link>
+        <Link color="white" onClick={onClickProfile}><CustomAvatar src={loginUser?.avatar_url} size="30px" name={loginUser?.user_name}/></Link>
         </Box>
         <Box pr={10}>
         <Link  color="white"onClick={onClickTimeline}><Home/></Link>
@@ -63,16 +65,17 @@ export const Header:FC<Props> = (props) => {
         <Box pr={10}>
         <Link color="white" onClick={onClickMessage}><MessageCircle/></Link>
         </Box>
-        <Box pr={10}>
+        {/* <Box pr={10}>
         <Link color="white" onClick={onClickSetting}><SettingsIcon/></Link>
-        </Box>
+        </Box> */}
         <Box>
           <LogOut onClick={onClickLogout} style={{cursor:"pointer"}}/>
         </Box>
       </Flex>  
     </Flex>
 
-    <NewPostModal isOpen={open} onClose={() => setOpen(false)} onPostSuccess={props.onRefresh}/>
+    <NewPostModal isOpen={postOpen} onClose={() => setPostOpen(false)} onPostSuccess={props.onRefresh}/>
+    <LogoutModal isOpen={logoutOpen} onClose={() => setLogoutOpen(false)}/>
 
     </>
   )

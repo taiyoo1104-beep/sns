@@ -9,7 +9,7 @@ type Props = {
     password:string;
 }
 
-export const userAddUser = () => {
+export const useAddUser = () => {
     const showMessage = useShowMessage();    
     
     const Add = useCallback(async (props : Props) => {

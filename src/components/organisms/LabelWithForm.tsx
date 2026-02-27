@@ -3,7 +3,7 @@ import type { ChangeEvent, FC } from "react";
 
 type Porops = {
     children:string;
-    placeHolder : string;
+    placeHolder? : string;
     type? : string;
     onChange : (e : ChangeEvent<HTMLInputElement>) => void;
     value:string;

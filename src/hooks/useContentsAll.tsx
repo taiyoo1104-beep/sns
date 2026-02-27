@@ -24,7 +24,6 @@ export const useContentsAll = () => {
     const showMessage = useShowMessage();
     const [contents,setContents] = useState<ContentType[]>([]);
     const { loginUser } = useContext(UserContext);
-
     //投稿一覧表示
     const getContents = useCallback(async () => {
         if(!loginUser) return;

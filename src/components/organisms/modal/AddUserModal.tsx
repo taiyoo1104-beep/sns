@@ -8,7 +8,7 @@ import {
   DialogRoot,
 } from "../../ui/dialog"
 import { Button , Stack} from "@chakra-ui/react";
-import { userAddUser } from "../../../hooks/useAddUser";
+import { useAddUser } from "../../../hooks/useAddUser";
 import { LabelWithForm } from "../LabelWithForm";
 
 type Props = {
@@ -18,7 +18,7 @@ type Props = {
 
 export const AddUserModal:FC<Props> = (props) => {
   const { isOpen,onClose } = props;
-  const { Add } = userAddUser();
+  const { Add } = useAddUser();
   const [userName , setUserName] = useState("");
   const [userId , setUserId] = useState("");
   const [password , setPassword] = useState("");

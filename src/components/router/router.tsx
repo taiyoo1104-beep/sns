@@ -8,6 +8,7 @@ import { Message } from "../pages/Message";
 import { Setting } from "../pages/Setting";
 import { HeaderLayout } from "../layout/HeaderLayout";
 import { Page404 } from "../pages/Page404";
+import { MessageDetail } from "../pages/MessageDetail";
 
 export const Router:FC = memo(() => {
   return (
@@ -23,6 +24,7 @@ export const Router:FC = memo(() => {
     <Route path="/message" element={<Message/>}/>
     <Route path="/setting" element={<Setting/>}/>
     </Route>
+    <Route path="/message/:roomId" element={<MessageDetail />}/>
     <Route path="*" element={<Page404/>}/>
 
     </Routes>

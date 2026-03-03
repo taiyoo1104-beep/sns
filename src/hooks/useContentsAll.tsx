@@ -1,7 +1,7 @@
 import { useCallback, useContext, useState } from "react";
-import { useShowMessage } from "./useShowMessage"
 import { supabase } from "../lib/supabase";
 import { UserContext } from "../providers/UserProvider";
+import { useShowMessage } from "./useShowMessage";
 
 export type ContentType = {
   message_id: string;          // 投稿のID

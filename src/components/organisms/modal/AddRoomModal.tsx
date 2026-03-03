@@ -7,8 +7,8 @@ import {
   DialogRoot,
 } from "../../ui/dialog"
 import { Box , Flex, Stack,Text} from "@chakra-ui/react";
-import { useusersAll } from "../../../hooks/useAllUsers";
 import { CustomAvatar } from "../../ui/avatar";
+import { useusersAll } from "../../../hooks/useAllUsers";
 
 type Props = {
   isOpen : boolean;

@@ -5,20 +5,38 @@ import { UserContext } from "../../providers/UserProvider";
 import { CustomAvatar } from "../ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { AddRoomModal } from "../organisms/modal/AddRoomModal";
+import { useCreateRoom } from "../../hooks/useCreateRoom";
 
 export const Message: FC = memo(() => {
   const { getRooms, rooms } = useGetRooms();
   const { loginUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [open,setOpen] = useState(false);
+  const {createRoom} = useCreateRoom()
 
   useEffect(() => {
-    getRooms();
-  }, [getRooms]);
+  let unsubscribe: (() => void) | undefined;
+
+  const setup = async () => {
+    unsubscribe = await getRooms();
+  };
+  
+  setup();
+
+  return () => {
+    if (unsubscribe) unsubscribe();
+  };
+}, [getRooms]);
 
   if (!loginUser) return null;
 
   const onClickAdd = () => setOpen(true)
+
+  const handleSelectUser = (targetUserId : string) => {
+    if(!loginUser) return;
+    createRoom({myId:loginUser.user_id,targetUserId:targetUserId})
+    setOpen(false)
+  }
 
   return (
     <Box pt="90px" pb="40px" px={4}>
@@ -75,7 +93,7 @@ export const Message: FC = memo(() => {
       >
         ＋
       </Button>
-      <AddRoomModal isOpen={open} onClose={() => setOpen(false)} loginUserId={loginUser?.user_id} onSelectUser={() => console.log("faaa")}/>
+      <AddRoomModal isOpen={open} onClose={() => setOpen(false)} loginUserId={loginUser?.user_id} onSelectUser={handleSelectUser}/>
     </Box>
     
     

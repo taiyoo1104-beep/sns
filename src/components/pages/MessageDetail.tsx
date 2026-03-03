@@ -1,9 +1,10 @@
-import { memo, useContext, useEffect, useRef, type FC } from "react";
+import { memo, useContext, useEffect, useRef, useState, type FC } from "react";
 import { Box, Flex, Stack, Text, Textarea } from "@chakra-ui/react";
 import { useGetMessages } from "../../hooks/useGetMessages";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../../providers/UserProvider";
 import { CustomAvatar } from "../ui/avatar";
+import { useSendMessage } from "../../hooks/useSendMessage";
 
 export const MessageDetail: FC = memo(() => {
   const navigate = useNavigate();
@@ -11,18 +12,47 @@ export const MessageDetail: FC = memo(() => {
   const { roomId } = useParams<{ roomId: string }>();
   const { loginUser } = useContext(UserContext);
   const scrollEndRef = useRef<HTMLDivElement>(null);
+  const [content, setContent] = useState("");
+  const { sendMessage } = useSendMessage();
+
   if (!loginUser) return;
   const partnerName =
     roomId?.replace(loginUser.user_id, "").replace("-", "") || "相手";
 
-  useEffect(() => {
-    if (roomId) getMessages(roomId);
-  }, [getMessages, roomId]);
+  // useEffect(() => {
+  //   if (roomId) getMessages(roomId);
+  // }, [getMessages, roomId]);
 
   useEffect(() => {
     scrollEndRef.current?.scrollIntoView({ behavior: "instant" });
   }, [messages]);
 
+  const handleSendMessage = () => {
+    if (!roomId) return;
+    sendMessage({
+      roomId: roomId,
+      senderId: loginUser.user_id,
+      content: content,
+    });
+    setContent("");
+  };
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
+    if (roomId) {
+      // getMessagesを実行し、戻り値（解除関数）を受け取る
+      const setupSubscription = async () => {
+        unsubscribe = await getMessages(roomId);
+      };
+      setupSubscription();
+    }
+
+    // コンポーネントがアンマウントされたら購読を停止
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [getMessages, roomId]);
   return (
     <Box pt="90px" pb="90px" px={4}>
       <Flex
@@ -89,17 +119,17 @@ export const MessageDetail: FC = memo(() => {
       >
         <Flex align="center">
           <Textarea
-            // value={inputText}
-            // onChange={(e) => setInputText(e.target.value)}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
             placeholder="メッセージを入力..."
             flex={1}
             p={3}
             bg="gray.100"
-            borderRadius="20px" // textareaなので少し四角い方が自然です
-            resize="none" // 右下のツマミを消す
-            rows={1} // 初期行数
-            minH="40px" // 最低限の高さ
-            maxH="120px" // 最大この高さまで広がる
+            borderRadius="20px"
+            resize="none"
+            rows={1}
+            minH="40px"
+            maxH="120px"
             border="none"
             _focus={{
               bg: "white",
@@ -115,6 +145,7 @@ export const MessageDetail: FC = memo(() => {
             cursor="pointer"
             _hover={{ opacity: 0.7 }}
             marginLeft="20px"
+            onClick={handleSendMessage}
           >
             送信
           </Text>

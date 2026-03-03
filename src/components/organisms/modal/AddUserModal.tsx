@@ -8,8 +8,8 @@ import {
   DialogRoot,
 } from "../../ui/dialog"
 import { Button , Stack} from "@chakra-ui/react";
-import { useAddUser } from "../../../hooks/useAddUser";
 import { LabelWithForm } from "../LabelWithForm";
+import { useAddUser } from "../../../hooks/useAddUser";
 
 type Props = {
   isOpen : boolean;

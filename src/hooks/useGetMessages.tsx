@@ -22,6 +22,27 @@ export const useGetMessages = () => {
     if (data) {
       setMessages(data as MessagesType[]);
     }
+
+    const channel = supabase
+    .channel(`room_${roomId}`)
+    .on(
+      "postgres_changes",
+      {
+        event:"INSERT",
+        schema:"public",
+        table:"messages",
+        filter:`room_id=eq.${roomId}`
+      },
+      (payload) => {
+        const newMessage = payload.new as MessagesType
+        setMessages((prev) => [...prev,newMessage])
+      }
+    )
+    .subscribe()
+
+    return() => {
+      supabase.removeChannel(channel)
+    }
   }, []);
 
   return { getMessages, messages };

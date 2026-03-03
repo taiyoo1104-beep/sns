@@ -37,6 +37,39 @@ export const useGetRooms = () => {
     } else if (data) {
       setRooms(data as RoomType[]);
     }
+
+    const channel = supabase
+      .channel("rooms_realtime")
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "rooms" },
+        (payload) => {
+          setRooms((prev) => {
+            // 1. まず、更新されたルームが今のリストにあるか探す
+            const targetRoom = prev.find((r) => r.id === payload.new.id);
+
+            // 2. リストにない場合（新しいトークが始まった時など）は、
+            // 本来は再取得が必要ですが、まずは今のリストをそのまま返す
+            if (!targetRoom) return prev;
+
+            // 3. 【重要】古いデータ(targetRoom)からユーザー情報を引き継ぎつつ、
+            // payload.new (最新のメッセージや時間) で上書きする
+            const updatedRoom: RoomType = {
+              ...targetRoom, // ユーザー情報（user_one_info等）を保持
+              ...payload.new, // last_message や updated_at を更新
+            };
+
+            // 4. 更新されたルームを一番上に持ってくる
+            const otherRooms = prev.filter((r) => r.id !== payload.new.id);
+            return [updatedRoom, ...otherRooms];
+          });
+        },
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [loginUser, showMessage]);
 
   return { getRooms, rooms };
